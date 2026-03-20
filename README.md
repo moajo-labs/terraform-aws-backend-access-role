@@ -6,7 +6,7 @@ IAM role with minimal permissions to access a Terraform S3 backend created by [t
 
 - IAM role with least-privilege policy
 - S3 object access (GetObject, PutObject, DeleteObject) and bucket listing
-- KMS key access (Decrypt, Encrypt, GenerateDataKey) for encrypted state
+- Optional KMS key access (Decrypt, Encrypt, GenerateDataKey) for encrypted state
 - Configurable assume role principals
 
 ## Usage
@@ -18,9 +18,10 @@ module "terraform_backend" {
 }
 
 module "terraform_backend_role" {
-  source        = "moajo-labs/backend-access-role/aws"
-  rolename      = "terraform-backend-accessor"
-  s3_bucket_arn = module.terraform_backend.bucket_arn
+  source         = "moajo-labs/backend-access-role/aws"
+  rolename       = "terraform-backend-accessor"
+  s3_bucket_name = module.terraform_backend.bucket_name
+  kms_key_arn    = module.terraform_backend.kms_key_arn # Optional: omit if bucket is not KMS-encrypted
 
   delegate_principals = [
     "arn:aws:iam::123456789000:user/example", # Allow single user
@@ -44,7 +45,7 @@ See [`examples/`](./examples/) for complete usage examples.
 
 | Name                                             | Version |
 | ------------------------------------------------ | ------- |
-| <a name="provider_aws"></a> [aws](#provider_aws) | ~> 5.0  |
+| <a name="provider_aws"></a> [aws](#provider_aws) | 5.100.0 |
 
 ## Modules
 
@@ -56,16 +57,16 @@ No modules.
 | ----------------------------------------------------------------------------------------------------------------------- | ----------- |
 | [aws_iam_role.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)               | resource    |
 | [aws_iam_role_policy.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource    |
-| [aws_kms_key.backend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key)           | data source |
+| [aws_s3_bucket.backend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket)       | data source |
 
 ## Inputs
 
-| Name                                                                                       | Description                                          | Type           | Default          | Required |
-| ------------------------------------------------------------------------------------------ | ---------------------------------------------------- | -------------- | ---------------- | :------: |
-| <a name="input_delegate_principals"></a> [delegate_principals](#input_delegate_principals) | List of principals to allow for sts:AssumeRole       | `list(string)` | n/a              |   yes    |
-| <a name="input_kms_alias"></a> [kms_alias](#input_kms_alias)                               | Alias for the KMS key used to encrypt the S3 bucket. | `string`       | `"s3-terraform"` |    no    |
-| <a name="input_rolename"></a> [rolename](#input_rolename)                                  | Name of the role.                                    | `string`       | n/a              |   yes    |
-| <a name="input_s3_bucket_arn"></a> [s3_bucket_arn](#input_s3_bucket_arn)                   | ARN of S3 bucket for store tfstate.                  | `string`       | n/a              |   yes    |
+| Name                                                                                       | Description                                                                                 | Type           | Default | Required |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------- | ------- | :------: |
+| <a name="input_delegate_principals"></a> [delegate_principals](#input_delegate_principals) | List of principals to allow for sts:AssumeRole                                              | `list(string)` | n/a     |   yes    |
+| <a name="input_kms_key_arn"></a> [kms_key_arn](#input_kms_key_arn)                         | ARN of the KMS key used to encrypt the S3 bucket. If null, KMS permissions are not granted. | `string`       | `null`  |    no    |
+| <a name="input_rolename"></a> [rolename](#input_rolename)                                  | Name of the role.                                                                           | `string`       | n/a     |   yes    |
+| <a name="input_s3_bucket_name"></a> [s3_bucket_name](#input_s3_bucket_name)                | Name of the S3 bucket for storing tfstate.                                                  | `string`       | n/a     |   yes    |
 
 ## Outputs
 

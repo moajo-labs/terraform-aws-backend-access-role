@@ -8,9 +8,10 @@ module "terraform_backend" {
 }
 
 module "terraform_backend_role" {
-  source        = "github.com/moajo/terraform-backend-access-role.git?ref=v3.0.0"
-  rolename      = "terraform-backend-accessor"
-  s3_bucket_arn = module.terraform_backend.bucket_arn
+  source         = "github.com/moajo/terraform-backend-access-role.git?ref=v3.0.0"
+  rolename       = "terraform-backend-accessor"
+  s3_bucket_name = module.terraform_backend.bucket_name
+  kms_key_arn    = module.terraform_backend.kms_key_arn
 
   delegate_principals = [
     "arn:aws:iam::123456789000:user/example",

@@ -1,9 +1,8 @@
 mock_provider "aws" {}
 
 variables {
-  rolename      = "test-backend-accessor"
-  s3_bucket_arn = "arn:aws:s3:::test-terraform-backend"
-  kms_alias     = "s3-terraform"
+  rolename       = "test-backend-accessor"
+  s3_bucket_name = "test-terraform-backend"
   delegate_principals = [
     "arn:aws:iam::123456789000:user/test-user",
   ]
@@ -18,24 +17,24 @@ run "creates_iam_role_with_correct_name" {
   }
 }
 
-run "kms_alias_defaults_to_s3_terraform" {
+run "without_kms_key" {
   command = plan
 
   assert {
-    condition     = data.aws_kms_key.backend.key_id == "alias/s3-terraform"
-    error_message = "KMS key alias should default to alias/s3-terraform"
+    condition     = aws_iam_role_policy.main.name == "AllowAccessToBackendBucket"
+    error_message = "Policy should be created without KMS key"
   }
 }
 
-run "custom_kms_alias" {
+run "with_kms_key" {
   command = plan
 
   variables {
-    kms_alias = "custom-key"
+    kms_key_arn = "arn:aws:kms:ap-northeast-1:123456789000:key/test-key-id"
   }
 
   assert {
-    condition     = data.aws_kms_key.backend.key_id == "alias/custom-key"
-    error_message = "KMS key alias should use the custom alias"
+    condition     = aws_iam_role_policy.main.name == "AllowAccessToBackendBucket"
+    error_message = "Policy should be created with KMS key"
   }
 }
