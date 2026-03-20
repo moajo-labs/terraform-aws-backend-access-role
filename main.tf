@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
 data "aws_kms_key" "backend" {
   key_id = "alias/${var.kms_alias}"
 }

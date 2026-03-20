@@ -1,29 +1,35 @@
-The role to access the https://github.com/moajo/terraform-backend-s3-bucket
+# terraform-aws-backend-access-role
 
-This role has minimal access to S3 and KMS.
+IAM role with minimal permissions to access a Terraform S3 backend created by [terraform-aws-backend-s3-bucket](https://github.com/moajo-labs/terraform-aws-backend-s3-bucket).
 
-## example
+## Features
 
-```tf
+- IAM role with least-privilege inline policy
+- S3 object access (GetObject, PutObject, DeleteObject) and bucket listing
+- KMS key access (Decrypt, Encrypt, GenerateDataKey) for encrypted state
+- Configurable assume role principals
 
+## Usage
+
+```hcl
 module "terraform_backend" {
-  source      = "github.com/moajo/terraform-backend-s3-bucket.git?ref=v3.0.0"
-  bucket_name = "projecthogehoge-terraform-backend" # Must be a globally unique bucket name
+  source      = "github.com/moajo-labs/terraform-aws-backend-s3-bucket.git?ref=v3.0.0"
+  bucket_name = "my-terraform-backend"
 }
 
 module "terraform_backend_role" {
-  source        = "github.com/moajo/terraform-backend-access-role.git?ref=v3.0.0"
+  source        = "github.com/moajo-labs/terraform-aws-backend-access-role.git?ref=v3.0.0"
   rolename      = "terraform-backend-accessor"
-  s3_bucket_arn = module.terraform_backend.bucket.arn
+  s3_bucket_arn = module.terraform_backend.bucket_arn
 
   delegate_principals = [
     "arn:aws:iam::123456789000:user/example", # Allow single user
-    # "123456789000", # Allow all of user in account
+    # "123456789000", # Allow all users in account
   ]
 }
-
-# module.terraform_backend_role.role_arn
 ```
+
+See [`examples/`](./examples/) for complete usage examples.
 
 <!-- BEGIN_TF_DOCS -->
 
