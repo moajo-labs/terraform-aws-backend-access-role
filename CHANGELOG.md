@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-03-20
+
+### Changed
+
+- Replace `s3_bucket_arn` variable with `s3_bucket_name`, resolving ARN via `data "aws_s3_bucket"`
+- Replace `kms_alias` variable with optional `kms_key_arn` (default `null`)
+- KMS policy statement is now only included when `kms_key_arn` is provided
+
 ## [0.2.1] - 2026-03-20
 
 ### Fixed
