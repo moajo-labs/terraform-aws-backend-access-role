@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-03-20
+
+### Fixed
+
+- Update module link in README to point to Terraform Registry
+- Remove outdated "inline" reference from policy description
+
 ## [0.2.0] - 2026-03-20
 
 ### Changed
