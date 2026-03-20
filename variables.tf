@@ -2,14 +2,14 @@ variable "rolename" {
   type        = string
   description = "Name of the role."
 }
-variable "s3_bucket_arn" {
+variable "s3_bucket_name" {
   type        = string
-  description = "ARN of S3 bucket for store tfstate."
+  description = "Name of the S3 bucket for storing tfstate."
 }
-variable "kms_alias" {
+variable "kms_key_arn" {
   type        = string
-  default     = "s3-terraform" # NOTE: default value if https://github.com/moajo/terraform-backend-s3-bucket
-  description = "Alias for the KMS key used to encrypt the S3 bucket."
+  default     = null
+  description = "ARN of the KMS key used to encrypt the S3 bucket. If null, KMS permissions are not granted."
 }
 variable "delegate_principals" {
   type        = list(string)
