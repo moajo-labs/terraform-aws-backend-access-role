@@ -1,10 +1,10 @@
 # terraform-aws-backend-access-role
 
-IAM role with minimal permissions to access a Terraform S3 backend created by [terraform-aws-backend-s3-bucket](https://github.com/moajo-labs/terraform-aws-backend-s3-bucket).
+IAM role with minimal permissions to access a Terraform S3 backend created by [terraform-aws-backend-s3-bucket](https://registry.terraform.io/modules/moajo-labs/backend-s3-bucket/aws/latest).
 
 ## Features
 
-- IAM role with least-privilege inline policy
+- IAM role with least-privilege policy
 - S3 object access (GetObject, PutObject, DeleteObject) and bucket listing
 - KMS key access (Decrypt, Encrypt, GenerateDataKey) for encrypted state
 - Configurable assume role principals
