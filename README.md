@@ -35,9 +35,10 @@ See [`examples/`](./examples/) for complete usage examples.
 
 ## Requirements
 
-| Name                                                   | Version |
-| ------------------------------------------------------ | ------- |
-| <a name="requirement_aws"></a> [aws](#requirement_aws) | ~> 5.0  |
+| Name                                                                     | Version |
+| ------------------------------------------------------------------------ | ------- |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.0  |
+| <a name="requirement_aws"></a> [aws](#requirement_aws)                   | ~> 5.0  |
 
 ## Providers
 
@@ -51,10 +52,11 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                          | Type        |
-| ------------------------------------------------------------------------------------------------------------- | ----------- |
-| [aws_iam_role.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)     | resource    |
-| [aws_kms_key.backend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key) | data source |
+| Name                                                                                                                    | Type        |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [aws_iam_role.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role)               | resource    |
+| [aws_iam_role_policy.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource    |
+| [aws_kms_key.backend](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_key)           | data source |
 
 ## Inputs
 
