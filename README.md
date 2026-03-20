@@ -13,12 +13,12 @@ IAM role with minimal permissions to access a Terraform S3 backend created by [t
 
 ```hcl
 module "terraform_backend" {
-  source      = "github.com/moajo-labs/terraform-aws-backend-s3-bucket.git?ref=v3.0.0"
+  source      = "moajo-labs/backend-s3-bucket/aws"
   bucket_name = "my-terraform-backend"
 }
 
 module "terraform_backend_role" {
-  source        = "github.com/moajo-labs/terraform-aws-backend-access-role.git?ref=v3.0.0"
+  source        = "moajo-labs/backend-access-role/aws"
   rolename      = "terraform-backend-accessor"
   s3_bucket_arn = module.terraform_backend.bucket_arn
 
